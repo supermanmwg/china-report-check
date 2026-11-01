@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>China Report Check</title>
+<meta name="description" content="Is your Chinese supplier's test report real, and is it for your product? A one-page verification memo in 48 hours, checked against the lab's own records in Chinese.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbfaf8;
+    --surface: #ffffff;
+    --ink: #1c1f24;
+    --muted: #5d6470;
+    --line: #e6e3de;
+    --accent: #1f5f8b;
+    --accent-ink: #ffffff;
+    --ok: #1f7a4d;
+    --ok-bg: #e8f4ed;
+    --warn: #9a5b00;
+    --warn-bg: #fdf1dc;
+    --bad: #a3322a;
+    --bad-bg: #fbe9e7;
+    --radius: 10px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161a;
+      --surface: #1c1f24;
+      --ink: #eceae6;
+      --muted: #a3a8b1;
+      --line: #2e3238;
+      --accent: #6aaedb;
+      --accent-ink: #0d1116;
+      --ok: #6fcf98;
+      --ok-bg: #1d2e25;
+      --warn: #f0b35a;
+      --warn-bg: #33291a;
+      --bad: #f08a80;
+      --bad-bg: #3a2220;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.6 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  a { color: var(--accent); }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 0 16px; }
+  header.top { border-bottom: 1px solid var(--line); }
+  header.top .wrap { display: flex; justify-content: space-between; align-items: center; height: 60px; }
+  .brand { font-weight: 700; letter-spacing: -0.01em; }
+  .brand span { color: var(--accent); }
+  nav a { color: var(--muted); text-decoration: none; margin-left: 20px; font-size: 15px; }
+  nav a:hover { color: var(--ink); }
+  .hero { padding: 64px 0 40px; }
+  .hero h1 { font-size: clamp(30px, 5vw, 46px); line-height: 1.12; letter-spacing: -0.02em; margin: 0 0 18px; max-width: 760px; }
+  .hero p.lead { font-size: 19px; color: var(--muted); max-width: 680px; margin: 0 0 28px; }
+  .cta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 12px 20px; border-radius: 8px; font-weight: 600; text-decoration: none; border: 1px solid var(--accent); }
+  .btn.primary { background: var(--accent); color: var(--accent-ink); }
+  .btn.ghost { color: var(--accent); background: transparent; }
+  .note { font-size: 14px; color: var(--muted); margin-top: 14px; }
+  section { padding: 44px 0; border-top: 1px solid var(--line); }
+  h2 { font-size: 26px; letter-spacing: -0.01em; margin: 0 0 8px; }
+  .sub { color: var(--muted); margin: 0 0 26px; max-width: 680px; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+  .card h3 { margin: 0 0 8px; font-size: 17px; }
+  .card p { margin: 0; color: var(--muted); font-size: 15px; }
+  .num { display: inline-block; width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-size: 14px; font-weight: 700; text-align: center; line-height: 26px; margin-bottom: 10px; }
+  .facts li { margin-bottom: 12px; }
+  .facts { padding-left: 20px; max-width: 760px; }
+  .memo { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  .memo-head { padding: 16px 20px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .memo-head b { display: block; }
+  .memo-head small { color: var(--muted); }
+  .stamp { align-self: center; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--warn); border: 1px dashed var(--warn); padding: 4px 8px; border-radius: 6px; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { text-align: left; padding: 12px 20px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 13px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+  tr:last-child td { border-bottom: 0; }
+  .tag { display: inline-block; font-size: 13px; font-weight: 600; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+  .tag.ok { color: var(--ok); background: var(--ok-bg); }
+  .tag.warn { color: var(--warn); background: var(--warn-bg); }
+  .tag.bad { color: var(--bad); background: var(--bad-bg); }
+  .memo-foot { padding: 14px 20px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .list { margin: 0; padding-left: 20px; }
+  .list li { margin-bottom: 8px; }
+  .price { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; margin: 6px 0 4px; }
+  .price small { font-size: 15px; font-weight: 500; color: var(--muted); }
+  .card.featured { border-color: var(--accent); }
+  details { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 18px; margin-bottom: 10px; }
+  summary { cursor: pointer; font-weight: 600; }
+  details p { color: var(--muted); margin: 10px 0 0; }
+  footer { border-top: 1px solid var(--line); padding: 32px 0 48px; color: var(--muted); font-size: 14px; }
+  @media (max-width: 760px) {
+    .grid3, .two { grid-template-columns: 1fr; }
+    nav { display: none; }
+    .hero { padding: 40px 0 28px; }
+    th, td { padding: 10px 14px; }
+    .hide-sm { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">China <span>Report Check</span></div>
+    <nav>
+      <a href="#what">What we check</a>
+      <a href="#sample">Sample memo</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <h1>Is your supplier's test report real, and is it for your product?</h1>
+    <p class="lead">Send us the PDF. Within 48 hours you get a one-page memo that checks the lab, the report number and the product match against the lab's own records, in Chinese.</p>
+    <div class="cta">
+      <a class="btn primary" href="mailto:mengweiguang.ict@gmail.com?subject=Report%20check%20request&body=Please%20attach%20the%20test%20report%20PDF%20and%20include%20your%20product%20model%20or%20listing%20link.">Email a report</a>
+      <a class="btn ghost" href="#sample">See a sample memo</a>
+    </div>
+    <p class="note">For importers, Amazon and Shopify sellers, sourcing agents and brokers. Your first order is invoiced after you receive the memo.</p>
+  </div>
+
+  <section>
+    <div class="wrap">
+      <h2>Why this matters now</h2>
+      <p class="sub">A rejected document costs a listing, a shipment or a retest. Most of the facts that decide it sit in Chinese-language systems.</p>
+      <ul class="facts">
+        <li><b>CPSC withdrew accreditation from four China-based labs on 15 January 2026</b> after finding unreliable or falsified results. Reports from those labs no longer support a US certificate. <a href="https://www.cpsc.gov/About-CPSC/Chairman/Peter-A-Feldman/Statement/CPSC-Immediately-Withdraws-Accreditation-from-Chinese-Laboratories-to-Protect-American-Families" target="_blank" rel="noopener">CPSC statement</a></li>
+        <li><b>Marketplaces have tightened which labs they accept.</b> Sellers report rejections for labs outside the accepted list or without ISO 17025 accreditation, and for EU and UK toys the lab now submits the report directly.</li>
+        <li><b>Many rejections are mismatches, not fakes.</b> The report names a supplier's internal model, a different variant, or a superseded standard version. Those are checkable before you submit.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="what">
+    <div class="wrap">
+      <h2>What we check</h2>
+      <p class="sub">Three checks per report. Each result is backed by a screenshot or a written confirmation from the lab.</p>
+      <div class="grid3">
+        <div class="card">
+          <div class="num">1</div>
+          <h3>The lab</h3>
+          <p>Is the lab real and accredited for this test? We check CNAS, ILAC member bodies, the CPSC accepted-lab list and the EU NANDO database, including the accreditation scope.</p>
+        </div>
+        <div class="card">
+          <div class="num">2</div>
+          <h3>The report number</h3>
+          <p>Does the report exist in the lab's own system? We use the lab's Chinese-language verification portal, or call and email the lab in Chinese with your written authorisation.</p>
+        </div>
+        <div class="card">
+          <div class="num">3</div>
+          <h3>The match to your product</h3>
+          <p>Do the model, variant, sample photos, applicant, brand name and standard version match what you sell and what you are submitting?</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sample">
+    <div class="wrap">
+      <h2>Sample memo</h2>
+      <p class="sub">This is what you receive. The lab, report and product below are fictional.</p>
+      <div class="memo">
+        <div class="memo-head">
+          <div>
+            <b>Report verification memo</b>
+            <small>Report EX-2026-000123 · Example Testing Co., Ltd. (Shenzhen) · Checked within 48 hours</small>
+          </div>
+          <div class="stamp">Sample · fictional data</div>
+        </div>
+        <table>
+          <thead>
+            <tr><th>Check</th><th>Result</th><th class="hide-sm">Evidence</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Lab accredited for EN 71-1/2/3</td>
+              <td><span class="tag ok">Verified</span></td>
+              <td class="hide-sm">CNAS directory entry and scope page, screenshots 1–2</td>
+            </tr>
+            <tr>
+              <td>Report number exists at the lab</td>
+              <td><span class="tag ok">Verified</span></td>
+              <td class="hide-sm">Lab verification portal result, screenshot 3</td>
+            </tr>
+            <tr>
+              <td>Model on report matches your listing</td>
+              <td><span class="tag bad">Mismatch</span></td>
+              <td class="hide-sm">Report covers "XY-100"; your listing is "XY-100 Pro" with a different battery pack</td>
+            </tr>
+            <tr>
+              <td>Standard version is current</td>
+              <td><span class="tag warn">Check</span></td>
+              <td class="hide-sm">Tested to an earlier edition of EN 71-3; confirm with your compliance contact</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="memo-foot">Suggested next step: ask the supplier for a report covering the Pro variant, or ask the lab whether an amendment is possible. This memo states verified facts only; it is not a compliance opinion.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap two">
+      <div class="card">
+        <h3>How it works</h3>
+        <ol class="list">
+          <li>Email the report PDF plus your model number or listing link.</li>
+          <li>We check the lab, the report number and the product match.</li>
+          <li>You get the memo and screenshots within 48 hours.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>What we don't do</h3>
+        <ul class="list">
+          <li>We are not a test lab and we do not issue certificates or CPCs.</li>
+          <li>We never edit or "fix" a report. We only verify it.</li>
+          <li>We do not give legal or compliance opinions.</li>
+          <li>We are not affiliated with Amazon, CPSC or any lab.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="wrap">
+      <h2>Pricing</h2>
+      <p class="sub">Per report, in USD. Paid by PayPal invoice.</p>
+      <div class="grid3">
+        <div class="card">
+          <h3>Lab check</h3>
+          <div class="price">$49</div>
+          <p>Lab accreditation and report number verified against the lab's records.</p>
+        </div>
+        <div class="card featured">
+          <h3>Full check</h3>
+          <div class="price">$99</div>
+          <p>Lab and report number, plus the full match to your product, variant, brand and standard version.</p>
+        </div>
+        <div class="card">
+          <h3>Agencies and brokers</h3>
+          <div class="price">$299 <small>/ 10 reports</small></div>
+          <p>White-label memos under your name. Your first three reports are free so you can judge the output.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <h2>Questions</h2>
+      <details>
+        <summary>Why can't I just ask the lab myself?</summary>
+        <p>You can. Many Chinese labs run their verification portals and phone lines in Chinese only, and often do not answer emails from buyers they don't know. That is the gap we fill.</p>
+      </details>
+      <details>
+        <summary>What if the lab won't confirm?</summary>
+        <p>We mark the item "Not verifiable" and say why. We never label a report fake without evidence.</p>
+      </details>
+      <details>
+        <summary>Will my supplier know?</summary>
+        <p>Only if you want them to. We contact the lab, not your supplier, unless you ask us to.</p>
+      </details>
+      <details>
+        <summary>What happens to my documents?</summary>
+        <p>They are used only for your check, never shared or used to train any model, and deleted 30 days after delivery.</p>
+      </details>
+      <details>
+        <summary>Who runs this?</summary>
+        <p>Weiguang Meng, a software engineer based in China and a native Chinese speaker. You deal with one person from first email to final memo.</p>
+      </details>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>China Report Check</b> · <a href="mailto:mengweiguang.ict@gmail.com">mengweiguang.ict@gmail.com</a></p>
+    <p>Memos state verified facts and their evidence. They are not legal advice, a compliance opinion or a test result, and they do not replace testing by an accredited laboratory.</p>
+  </div>
+</footer>
+
+</body>
+</html>
